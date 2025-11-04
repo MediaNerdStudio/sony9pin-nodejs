@@ -6,6 +6,40 @@
   "type": "module",
   "license": "MIT",
   "author": "MediaNerd",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MediaNerdStudio/sony9pin-nodejs.git"
+  },
+  "homepage": "https://github.com/MediaNerdStudio/sony9pin-nodejs#readme",
+  "bugs": {
+    "url": "https://github.com/MediaNerdStudio/sony9pin-nodejs/issues"
+  },
+  "keywords": [
+    "sony9pin",
+    "sony",
+    "rs422",
+    "vtr",
+    "deck",
+    "serial",
+    "timecode",
+    "vitc",
+    "ltc"
+  ],
+  "files": [
+    "src",
+    "index.js",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./index.js"
+    }
+  },
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "demo": "node examples/demo.js"
   },
