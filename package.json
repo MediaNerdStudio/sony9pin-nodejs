@@ -1,0 +1,15 @@
+{
+  "name": "sony9pin-nodejs",
+  "version": "0.1.0",
+  "description": "Node.js controller for Sony 9-pin (RS-422) VTR decks via serial (COM port)",
+  "main": "index.js",
+  "type": "module",
+  "license": "MIT",
+  "author": "MediaNerd",
+  "scripts": {
+    "demo": "node examples/demo.js"
+  },
+  "dependencies": {
+    "serialport": "^12.0.0"
+  }
+}
