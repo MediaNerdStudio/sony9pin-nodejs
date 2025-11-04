@@ -1,4 +1,4 @@
-# MediaNerd RS-422 Sony 9-Pin Controller (Node.js)
+# sony9pin-nodejs
 
 A small Node.js library to control VTRs/decks that support the Sony 9‑pin (RS‑422) protocol.
 
@@ -12,12 +12,12 @@ This lib wraps serial I/O, encodes/decodes core protocol messages, and emits hum
 ## Install
 
 - Node 18+
-- `npm i`
+- `npm i sony9pin-nodejs`
 
 ## Usage
 
 ```js
-import { VTR422, CurrentTimeSenseFlag } from 'medianerd-rs422-vtr';
+import { VTR422, CurrentTimeSenseFlag } from 'sony9pin-nodejs';
 
 const vtr = new VTR422({
   portPath: 'COM1',
