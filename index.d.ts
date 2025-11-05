@@ -176,3 +176,11 @@ export const Encoder: {
   // generic
   encode(cmd1: number, cmd2: number, data?: number[]): Buffer;
 };
+
+export class BlackmagicAMP {
+  constructor(vtr: VTR422);
+  send(cmd1: number, cmd2: number, data?: number[]): Promise<void>;
+  raw(cmd1: number, cmd2: number, data?: number[]): Promise<void>;
+  timecodeAuto(): Promise<void>;
+  pollTimecode(opts?: { intervalMs?: number; durationMs?: number }): Promise<void>;
+}

@@ -55,9 +55,9 @@ await vtr.close();
 Installed globally or via npx:
 
 ```
-npx sony9pin-nodejs sony9pin --port=COM3 play
-npx sony9pin-nodejs sony9pin status
-npx sony9pin-nodejs sony9pin timecode auto
+npx sony9pin --port=COM3 play
+npx sony9pin status
+npx sony9pin timecode auto
 ```
 
 Usage:
@@ -78,6 +78,34 @@ Commands:
   shuttle <speed>             Shuttle -127..127
   raw <cmd1> <cmd2> [data..]  Send raw bytes (decimal or 0x..)
 ```
+
+## Blackmagic Advanced Media Protocol (AMP)
+
+This package can be used to communicate with Blackmagic devices that speak their Advanced Media Protocol over RS‑422 framing. Since models/firmware vary, we provide a thin helper that lets you issue exact `cmd1/cmd2/data` as documented by Blackmagic.
+
+- Helper: `BlackmagicAMP` (wraps `VTR422`)
+  - `bm.send(cmd1, cmd2, data)` / `bm.raw(...)` – 1:1 packet sender
+  - `bm.timecodeAuto()` – convenience alias using Sony 61.0C.03
+  - `bm.pollTimecode({ intervalMs, durationMs })`
+
+Example:
+
+```js
+import { VTR422, BlackmagicAMP } from 'sony9pin-nodejs';
+const vtr = new VTR422({ portPath: 'COM1' });
+const bm = new BlackmagicAMP(vtr);
+await vtr.open();
+// Replace with the exact AMP command values from your device manual
+// await bm.raw(0x6X, 0xYY, [/* data */]);
+await vtr.close();
+```
+
+See also:
+- HyperDeck Manual (AMP): https://documents.blackmagicdesign.com/UserManuals/HyperDeckManual.pdf
+- Reference project: https://github.com/hideakitai/Sony9PinRemote
+
+Demo:
+- `examples/blackmagic-demo.js`
 
 ## API
 
