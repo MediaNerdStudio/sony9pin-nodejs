@@ -108,6 +108,9 @@ export class VTR422 extends EventEmitter {
   currentTimeSense(flag = 0x01) { return this.send(Encoder.currentTimeSense(flag)); }
   deviceType() { return this.send(Encoder.deviceType()); }
 
+  // Generic 1:1 wrapper entry
+  sendCommand(cmd1, cmd2, data = []) { return this.send(Encoder.encode(cmd1, cmd2, data)); }
+
   _log(msg) { if (this.debug) console.log(`[VTR422] ${msg}`); }
 
   _tryParse() {

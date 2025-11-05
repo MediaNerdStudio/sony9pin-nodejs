@@ -87,6 +87,8 @@ export function buildPacket(cmd1, cmd2, data = []) {
   return Buffer.from([...body, cs]);
 }
 
+export function encode(cmd1, cmd2, data = []) { return buildPacket(cmd1, cmd2, data); }
+
 // Convenience encoders
 export const Encoder = {
   // System control
@@ -108,6 +110,24 @@ export const Encoder = {
   review: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.REVIEW),
   syncPlay: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.SYNC_PLAY),
   cueUpWithData: (hh, mm, ss, ff) => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.CUE_UP_WITH_DATA, [hh, mm, ss, ff]),
+  frameStepForward: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.FRAME_STEP_FWD),
+  frameStepReverse: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.FRAME_STEP_REV),
+  // Jog/Var/Shuttle helpers accept signed speed (-0x7F..+0x7F); magnitude is 1 byte
+  jog: (delta) => {
+    const v = Math.max(-0x7F, Math.min(0x7F, delta|0));
+    const cmd2 = v >= 0 ? TransportCtrl.JOG_FWD : TransportCtrl.JOG_REV;
+    return buildPacket(Cmd1.TRANSPORT_CONTROL, cmd2, [Math.abs(v) & 0x7F]);
+  },
+  varSpeed: (speed) => {
+    const v = Math.max(-0x7F, Math.min(0x7F, speed|0));
+    const cmd2 = v >= 0 ? TransportCtrl.VAR_FWD : TransportCtrl.VAR_REV;
+    return buildPacket(Cmd1.TRANSPORT_CONTROL, cmd2, [Math.abs(v) & 0x7F]);
+  },
+  shuttle: (speed) => {
+    const v = Math.max(-0x7F, Math.min(0x7F, speed|0));
+    const cmd2 = v >= 0 ? TransportCtrl.SHUTTLE_FWD : TransportCtrl.SHUTTLE_REV;
+    return buildPacket(Cmd1.TRANSPORT_CONTROL, cmd2, [Math.abs(v) & 0x7F]);
+  },
 
   // Sense
   statusSense: (start = 0, size = 10) => {
@@ -115,4 +135,20 @@ export const Encoder = {
     return buildPacket(Cmd1.SENSE_REQUEST, SenseRequest.STATUS_SENSE, [v]);
   },
   currentTimeSense: (flag /* use CurrentTimeSenseFlag */ = 0x01) => buildPacket(Cmd1.SENSE_REQUEST, SenseRequest.CURRENT_TIME_SENSE, [flag & 0xFF]),
+  tcGenSense: () => buildPacket(Cmd1.SENSE_REQUEST, SenseRequest.TC_GEN_SENSE),
+  inDataSense: () => buildPacket(Cmd1.SENSE_REQUEST, SenseRequest.IN_DATA_SENSE),
+  outDataSense: () => buildPacket(Cmd1.SENSE_REQUEST, SenseRequest.OUT_DATA_SENSE),
+
+  // Preset / Select
+  inEntry: () => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.IN_ENTRY),
+  outEntry: () => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.OUT_ENTRY),
+  inDataPreset: (hh, mm, ss, ff) => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.IN_DATA_PRESET, [hh, mm, ss, ff]),
+  outDataPreset: (hh, mm, ss, ff) => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.OUT_DATA_PRESET, [hh, mm, ss, ff]),
+  prerollPreset: (hh, mm, ss, ff) => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.PREROLL_PRESET, [hh, mm, ss, ff]),
+  autoModeOn: () => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.AUTO_MODE_ON),
+  autoModeOff: () => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.AUTO_MODE_OFF),
+  inputCheck: () => buildPacket(Cmd1.PRESET_SELECT_CONTROL, PresetSelectCtrl.INPUT_CHECK),
+
+  // Generic
+  encode,
 };

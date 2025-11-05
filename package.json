@@ -28,12 +28,18 @@
   "files": [
     "src",
     "index.js",
+    "index.d.ts",
+    "bin",
     "README.md",
     "LICENSE"
   ],
+  "bin": {
+    "sony9pin": "bin/sony9pin.js"
+  },
   "exports": {
     ".": {
-      "import": "./index.js"
+      "import": "./index.js",
+      "types": "./index.d.ts"
     }
   },
   "sideEffects": false,

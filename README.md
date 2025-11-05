@@ -50,6 +50,35 @@ await vtr.stop();
 await vtr.close();
 ```
 
+## CLI
+
+Installed globally or via npx:
+
+```
+npx sony9pin-nodejs sony9pin --port=COM3 play
+npx sony9pin-nodejs sony9pin status
+npx sony9pin-nodejs sony9pin timecode auto
+```
+
+Usage:
+
+```
+sony9pin [--port=COM1] [--baud=38400] [--debug] <command> [args]
+
+Commands:
+  device                      Query device type
+  status                      Status sense (page 0 size 10)
+  timecode [auto|ltc|vitc]    Current time sense (61 0C xx)
+  play | stop | record        Transport basics
+  standby-on | standby-off    Standby control
+  eject | ff | rew            Eject / fast forward / rewind
+  cue HH:MM:SS:FF             Cue up with data
+  jog <-127..127>             Jog relative
+  var <speed>                 Var speed -127..127
+  shuttle <speed>             Shuttle -127..127
+  raw <cmd1> <cmd2> [data..]  Send raw bytes (decimal or 0x..)
+```
+
 ## API
 
 ### `new VTR422(options)`
@@ -66,10 +95,15 @@ await vtr.close();
 - `close()` → Promise<void>
 - `isOpen()` → boolean
 
-### Commands (selected)
-- Transport: `play()`, `stop()`, `record()`, `fastForward()`, `rewind()`, `standbyOn()`, `standbyOff()`, `preview()`, `review()`, `preroll()`
-- Preset/Select: `cueUpWithData(hh, mm, ss, ff)`
-- Sense: `statusSense(start, size)`, `currentTimeSense(flag)`, `deviceType()`
+### Commands (helpers)
+- System: `localDisable()`, `deviceType()`, `localEnable()`
+- Transport: `play()`, `stop()`, `record()`, `standbyOn()`, `standbyOff()`, `eject()`, `fastForward()`, `rewind()`, `preroll()`, `preview()`, `review()`, `syncPlay()`, `cueUpWithData(h,m,s,f)`, `frameStepForward()`, `frameStepReverse()`, `jog(delta)`, `varSpeed(speed)`, `shuttle(speed)`
+- Preset/Select: `inEntry()`, `outEntry()`, `inDataPreset(h,m,s,f)`, `outDataPreset(h,m,s,f)`, `prerollPreset(h,m,s,f)`, `autoModeOn()`, `autoModeOff()`, `inputCheck()`
+- Sense: `statusSense(start,size)`, `currentTimeSense(flag)`, `tcGenSense()`, `inDataSense()`, `outDataSense()`, `deviceType()`
+
+### Generic 1:1 wrapper
+- `sendCommand(cmd1, cmd2, data?)` to send any Sony 9‑pin command directly.
+- `Encoder.encode(cmd1, cmd2, data?)` returns a packet `Buffer` you can pass to `vtr.send(...)`.
 
 ### Timecode sense flags
 - `CurrentTimeSenseFlag.LTC_TC` (0x01)
