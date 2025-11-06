@@ -116,7 +116,8 @@ export class VTR422 extends EventEmitter {
   _tryParse() {
     while (this._rx.length >= 3) {
       let found = false;
-      for (let L = 3; L <= Math.min(15, this._rx.length); L++) {
+      const MAX_LEN = 256;
+      for (let L = 3; L <= Math.min(MAX_LEN, this._rx.length); L++) {
         const slice = this._rx.slice(0, L);
         const sum = slice.slice(0, L - 1).reduce((a, b) => (a + b) & 0xFF, 0);
         if (sum === slice[L - 1]) {

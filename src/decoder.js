@@ -119,18 +119,18 @@ export class Sony9PinDecoder {
     const cmd2 = p[1];
     const data = p.slice(2, p.length - 1);
 
-    // ACK
-    if (cmd1 === 0x10 && cmd2 === 0x01) {
+    // ACK (mask length nibble)
+    if ((cmd1 & 0xF0) === 0x10 && cmd2 === 0x01) {
       return { type: 'ack', cmd1, cmd2, data, text: 'ACK' };
     }
-    // NAK
-    if (cmd1 === 0x10 && cmd2 === 0x12) {
+    // NAK (mask length nibble)
+    if ((cmd1 & 0xF0) === 0x10 && cmd2 === 0x12) {
       const mask = data[0] || 0;
       const reasons = decodeNakBits(mask);
       return { type: 'nak', cmd1, cmd2, data, text: `NAK ${mask.toString(16).padStart(2, '0')} [${reasons.join(', ')}]`, reasons };
     }
-    // Device type
-    if (cmd1 === 0x12 && cmd2 === 0x11 && data.length >= 2) {
+    // Device type (mask length nibble)
+    if ((cmd1 & 0xF0) === 0x10 && cmd2 === 0x11 && data.length >= 2) {
       const deviceType = (data[0] << 8) | data[1];
       return { type: 'device_type', cmd1, cmd2, data, deviceType, text: `DEVICE TYPE 0x${deviceType.toString(16)}` };
     }

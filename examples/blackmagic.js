@@ -10,6 +10,7 @@ async function main() {
   vtr.on('ack', () => console.log('[ACK]'));
   vtr.on('nak', (m) => console.log('[NAK]', m.reasons));
   vtr.on('status', (m) => console.log('[STATUS]', m.flags));
+  vtr.on('raw', (m) => console.log('[RAW]', m.text));
 
   await vtr.open();
 
@@ -20,12 +21,32 @@ async function main() {
   // Example: get auto timecode via Sony 9-pin sense
   await vtr.currentTimeSense(CurrentTimeSenseFlag.AUTO);
 
-  // Example: poll timecode for 3 seconds using the helper
-  await bm.pollTimecode({ intervalMs: 250, durationMs: 3000 });
+  // Blackmagic AMP examples
+  // 1) Enable looping over Clip
+  await vtr.play();  
+  await bm.setPlaybackLoop({ enable: true, timeline: false });
+  await sleep(20000);
+  await vtr.stop();
 
-  // Example: send a raw Blackmagic-specific command if you know cmd1/cmd2/data
-  // NOTE: Replace with proper values from HyperDeck Manual (RS-422 AMP section)
-  // await bm.raw(0x6X, 0xYY, [/* data bytes */]);
+  // 2) Stop mode: freeze on last frame
+  // await bm.setStopMode(1);
+
+  // 3) Seek to 50% timeline position
+  // await sleep(2000);
+  // await bm.seekToTimelinePosition(0.5);
+
+  // 4) Skip forward 1 clip
+  // await sleep(2000);
+  // await bm.autoSkip(1);
+  
+  // 5) Request next 3 clip IDs
+  // await bm.listNextId();
+
+  // 6) Append preset named "Demo" with in/out points
+  // await bm.appendPreset('Demo', { hh: 0, mm: 0, ss: 5, ff: 0 }, { hh: 0, mm: 0, ss: 10, ff: 0 });
+
+  // Poll timecode for 2 seconds
+  await bm.pollTimecode({ intervalMs: 250, durationMs: 2000 });
 
   await vtr.close();
 }
