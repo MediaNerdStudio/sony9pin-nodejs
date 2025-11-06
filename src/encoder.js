@@ -89,6 +89,13 @@ export function buildPacket(cmd1, cmd2, data = []) {
 
 export function encode(cmd1, cmd2, data = []) { return buildPacket(cmd1, cmd2, data); }
 
+function bcd(n) {
+  const v = Math.max(0, Math.min(99, n | 0));
+  const tens = Math.floor(v / 10);
+  const ones = v % 10;
+  return ((tens & 0x0F) << 4) | (ones & 0x0F);
+}
+
 // Convenience encoders
 export const Encoder = {
   // System control
@@ -109,7 +116,12 @@ export const Encoder = {
   preview: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.PREVIEW),
   review: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.REVIEW),
   syncPlay: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.SYNC_PLAY),
-  cueUpWithData: (hh, mm, ss, ff) => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.CUE_UP_WITH_DATA, [hh, mm, ss, ff]),
+  // Cue Up With Data expects time in BCD and in the order: FF, SS, MM, HH
+  cueUpWithData: (hh, mm, ss, ff) => buildPacket(
+    Cmd1.TRANSPORT_CONTROL,
+    TransportCtrl.CUE_UP_WITH_DATA,
+    [bcd(ff), bcd(ss), bcd(mm), bcd(hh)]
+  ),
   frameStepForward: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.FRAME_STEP_FWD),
   frameStepReverse: () => buildPacket(Cmd1.TRANSPORT_CONTROL, TransportCtrl.FRAME_STEP_REV),
   // Jog/Var/Shuttle helpers accept signed speed (-0x7F..+0x7F); magnitude is 1 byte
