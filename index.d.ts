@@ -184,3 +184,52 @@ export class BlackmagicAMP {
   timecodeAuto(): Promise<void>;
   pollTimecode(opts?: { intervalMs?: number; durationMs?: number }): Promise<void>;
 }
+
+export class Odetics {
+  constructor(vtr: VTR422);
+  send(cmd1: number, cmd2: number, data?: number[]): Promise<void>;
+  raw(cmd1: number, cmd2: number, data?: number[]): Promise<void>;
+  timecodeAuto(): Promise<void>;
+  pollTimecode(opts?: { intervalMs?: number; durationMs?: number }): Promise<void>;
+  previewInReset(): Promise<void>;
+  previewOutReset(): Promise<void>;
+  listFirstId(): Promise<void>;
+  listNextId(): Promise<void>;
+  longestContiguousAvailableStorage(): Promise<void>;
+  deviceIdRequest(): Promise<void>;
+  eraseSegment(): Promise<void>;
+  listClipTc(): Promise<void>;
+  listClipTcEVS(): Promise<void>;
+  idStatusRequest(): Promise<void>;
+  setDeviceId(...bytes: number[]): Promise<void>;
+  recordCueUpWithData(cmd1Variant?: number, ...data: number[]): Promise<void>;
+  previewInPreset(cmd1Variant?: number, ...data: number[]): Promise<void>;
+  previewOutPreset(cmd1Variant?: number, ...data: number[]): Promise<void>;
+  eraseId(cmd1Variant?: number, ...idBytes: number[]): Promise<void>;
+  getEvent(): Promise<void>;
+  setTargetMachine(...bytes: number[]): Promise<void>;
+  setIdForData(...idBytes: number[]): Promise<void>;
+  setData(...dataBytes: number[]): Promise<void>;
+  getData(...idBytes: number[]): Promise<void>;
+  makeClip(cmd1Variant?: number, ...bytes: number[]): Promise<void>;
+  setIDEVSStatus(...bytes: number[]): Promise<void>;
+  listClipProtectTC(...idBytes: number[]): Promise<void>;
+  getKeyword(...idBytes: number[]): Promise<void>;
+  setKeyword1(...idBytes: number[]): Promise<void>;
+  setKeyword2(...bytes: number[]): Promise<void>;
+  idLsmToLouth(...bytes: number[]): Promise<void>;
+  idLouthToLsm(...bytes: number[]): Promise<void>;
+  netMoveClipIdVDCP(...bytes: number[]): Promise<void>;
+  netMoveClipIdLsm1(...bytes: number[]): Promise<void>;
+  netMoveClipIdLsm2(...bytes: number[]): Promise<void>;
+  netCopyClipIdVDCP1(...bytes: number[]): Promise<void>;
+  netCopyClipIdVDCP2(...bytes: number[]): Promise<void>;
+  netCopyClipIdLsm1(...bytes: number[]): Promise<void>;
+  netCopyClipIdLsm2(...bytes: number[]): Promise<void>;
+  getFirstMachine(): Promise<void>;
+  getNextMachine(): Promise<void>;
+  setOptions(...bytes: number[]): Promise<void>;
+  getOptions(...bytes: number[]): Promise<void>;
+  setInOut(cmd1Variant?: number, ...bytes: number[]): Promise<void>;
+  live(...bytes: number[]): Promise<void>;
+}

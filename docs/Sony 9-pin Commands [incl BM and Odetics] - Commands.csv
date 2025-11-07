@@ -1,0 +1,262 @@
+,,,,,,,,,
+Data,Command,Return,Reply,Notes,Blackmagic Notes,EVS Notes,No Remote,Protocol,Type
+00 0C,Local Disable,10 01,Acknowledge,,,Not Used ,Enabled,BVW75,System Control
+00 11,DeviceTypeRequest,12 11,Device Type*,,"NTSC: 0xF0E0
+PAL: 0xF1E0
+24P: 0xF2E0","12 11 D9 10 for PAL
+12 11 D8 10 for NTSC",Enabled,BVW75,System Control
+00 1D,Local Enable,10 01,Acknowledge,,,Not Used ,Disabled,BVW75,System Control
+20 00,Stop,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 01,Play,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 02,Record,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 04,Standby Off,10 01,Acknowledge,,,Not Used ,Disabled,BVW75,Slave Response
+20 05,Standby On,10 01,Acknowledge,,,Not Used ,Disabled,BVW75,Slave Response
+20 0F,Eject,10 01,Acknowledge,,,"Used to scan Lives on the player => EVS specific. 
+",Disabled,BVW75,Slave Response
+20 10,Fast Fwd,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 20,Rewind,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 30,Preroll,10 01,Acknowledge,,,Not Used ,Disabled,BVW75,Slave Response
+20 34,SyncPlay,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 40,Preview,10 01,Acknowledge,,Status bits are set,,Disabled,BVW75,Slave Response
+20 41,Review,10 01,Acknowledge,,Status bits are set,,Disabled,BVW75,Slave Response
+20 42,Auto Edit,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 43,Outpoint Preview,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 60,Full EE Off,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 61,Full EE On,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 63,Select EE On,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 64,Edit Off,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 65,Edit On,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 6A,Freeze Off,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+20 6B,Freeze On,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+21 11,JogFwd1,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+21 12,VarFwd1,10 01,Acknowledge,,Uses ShuttleFwd1,,Disabled,BVW75,Slave Response
+21 13,ShuttleFwd1,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+21 21,JogRev1,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+21 22,VarRev1,10 01,Acknowledge,,Uses ShuttleRev1,,Disabled,BVW75,Slave Response
+21 23,ShuttleRev1,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+21 38,ProgSpeedPlayPlus,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+21 39,ProgSpeedPlayMinus,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+22 11,JogFwd2,10 01,Acknowledge,,"Treated as N=1;
+Same as JogFwd1",,Disabled,BVW75,Slave Response
+22 12,VarFwd2,10 01,Acknowledge,,"Treated as N=1;
+Same as VarFwd1",,Disabled,BVW75,Slave Response
+22 13,ShuttleFwd2,10 01,Acknowledge,,"Treated as N=1;
+Same as ShuttleFwd1",,Disabled,BVW75,Slave Response
+22 21,JogRev2,10 01,Acknowledge,,"Treated as N=1;
+Same as JogRev1",,Disabled,BVW75,Slave Response
+22 22,VarRev2,10 01,Acknowledge,,"Treated as N=1;
+Same as VarRev1",,Disabled,BVW75,Slave Response
+22 23,ShuttleRev2,10 01,Acknowledge,,"Treated as N=1;
+Same as ShuttleRev1",,Disabled,BVW75,Slave Response
+24 31,CueData,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+2X 54,Anti-Clog Timer Disable,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+2X 55,Anti-Clog Timer Enable,10 01,Acknowledge,,,,Disabled,BVW75,Slave Response
+40 08,Timer-1 Reset,10 01,Acknowledge,,,,,BVW75,
+40 10,InEntry,10 01,Acknowledge,,,Used with “MakeClip” & “SetInOut” ,,BVW75,
+40 11,OutEntry,10 01,Acknowledge,,,Used with “MakeClip” & “SetInOut” ,,BVW75,
+40 12,Audio In Entry,10 01,Acknowledge,,,,,BVW75,
+40 13,Audio Out Entry,10 01,Acknowledge,,,,,BVW75,
+40 18,InShift+,10 01,Acknowledge,,,,,BVW75,
+40 19,InShift-,10 01,Acknowledge,,,,,BVW75,
+40 1A,OutShift+ ,10 01,Acknowledge,,,,,BVW75,
+40 1B,OutShift- ,10 01,Acknowledge,,,,,BVW75,
+40 1C,Audio In + Shift,10 01,Acknowledge,,,,,BVW75,
+40 1D,Audio In - Shift,10 01,Acknowledge,,,,,BVW75,
+40 1E,Audio Out + Shift,10 01,Acknowledge,,,,,BVW75,
+40 1F,Audio Out - Shift,10 01,Acknowledge,,,,,BVW75,
+40 20,InReset,10 01,Acknowledge,,,,,BVW75,
+40 21,OutReset,10 01,Acknowledge,,,,,BVW75,
+40 22,AInReset,10 01,Acknowledge,,,,,BVW75,
+40 23,AOutReset,10 01,Acknowledge,,,,,BVW75,
+40 24,In Recall,10 01,Acknowledge,,,,,BVW75,
+40 25,Out Recall,10 01,Acknowledge,,,,,BVW75,
+40 26,Audio In Recall,10 01,Acknowledge,,,,,BVW75,
+40 27,Audio Out Recall,10 01,Acknowledge,,,,,BVW75,
+40 2D,Lost Lock Reset,10 01,Acknowledge,,,,,BVW75,
+40 30,Edit Preset,10 01,Acknowledge,,,Not Used ,,,
+40 40,AutoModeOff,10 01,Acknowledge,,"ignored, Status bit
+remembered",,,BVW75,
+40 41,AutoModeOn,10 01,Acknowledge,,"ignored, Status bit
+remembered",,,BVW75,
+40 42,Spot Erase Off,10 01,Acknowledge,,,,,BVW75,
+40 43,Spot Erase On,10 01,Acknowledge,,,,,BVW75,
+40 44,Audio Split Off,10 01,Acknowledge,,,,,BVW75,
+40 45,Audio Split On,10 01,Acknowledge,,,,,BVW75,
+41 32,Tape/Auto Select,10 01,Acknowledge,,,,,BVW75,
+41 33,Servo Ref Select,10 01,Acknowledge,,,,,BVW75,
+41 34,Head Select,10 01,Acknowledge,,,,,BVW75,
+41 35,Color Frame select,10 01,Acknowledge,,,,,BVW75,
+41 36,Timer Mode Select,10 01,Acknowledge,,,,,BVW75,
+41 37,InputCheck,10 01,Acknowledge,,,,,BVW75,
+41 3A,Edit Field Select,10 01,Acknowledge,,,,,BVW75,
+41 3B,Freeze Mode Select,10 01,Acknowledge,,,,,BVW75,
+42 F8,Still Off time,10 01,Acknowledge,,,,,BVW75,
+42 FA,Stby Off time,10 01,Acknowledge,,,,,BVW75,
+44 00,Timer-1 Preset,10 01,Acknowledge,,,,,BVW75,
+44 04,Time Code Preset,10 01,Acknowledge,,,,,BVW75,
+44 05,User Bit Preset,10 01,Acknowledge,,,,,BVW75,
+44 14,InDataPreset,10 01,Acknowledge,,,"If TC is 00:00:00:00 or is not specified
+then load and cue up on the first clip
+frame. ",,BVW75,
+44 15,OutDataPreset,10 01,Acknowledge,,,"If 40 15 then set Out point with the clip
+out point(.i.e. the last clip frame) ",,BVW75,
+44 16,Audio In Data Preset,10 01,Acknowledge,,,,,BVW75,
+44 17,Audio Out Data Preset,10 01,Acknowledge,,,,,BVW75,
+44 31,PrerollPreset,10 01,Acknowledge,,,Not Used ,,BVW75,
+4X 30,Edit Preset,10 01,Acknowledge,,,,,BVW75,
+4X 3E,Record Inhibit,10 01,Acknowledge,,,,,BVW75,
+4X 98,Output H Phase,10 01,Acknowledge,,,,,BVW75,
+4X 9B,Output Video Phase,10 01,Acknowledge,,,,,BVW75,
+4X A0,Audio Input Level,10 01,Acknowledge,,,,,BVW75,
+4X A1,Audio Output Level,10 01,Acknowledge,,,,,BVW75,
+4X A2,Audio Adv Level,10 01,Acknowledge,,,,,BVW75,
+4X A8,Audio Output Phase,10 01,Acknowledge,,,,,BVW75,
+4X A9,Audio Adv Out Phase,10 01,Acknowledge,,,,,BVW75,
+4X AA,Cross Fade Time Preset,10 01,Acknowledge,,,,,BVW75,
+4X B8,Local Key Map,10 01,Acknowledge,,,,,BVW75,
+60 10,InDataSense,74 10,In Data,,,Not Used ,,BVW75,
+60 11,OutDataSense,74 11,Out Data,,,Not Used ,,BVW75,
+60 12,AInDataSense,74 12,Audio In Data,,,,,BVW75,
+60 13,AOutDataSense,74 13,Audio Out Data,,,,,BVW75,
+60 2B,RemainTimeSense,76 2B,Remaining Time,,,,,BVW75,
+60 2E,SpeedSense,7X 2E,Cmd Speed Data,,,Not Used ,,BVW75,
+60 31,PrerollTimeSense,74 31,Preroll Time,,,Not Used ,,BVW75,
+60 36,TimerModeSense,71 36,Timer Mode Status,,,Not Used ,,BVW75,
+60 3E,RecordInhibitSense,72 3E,Record Inhibit Status,,,,,BVW75,
+60 52,DA Inp Emph Sense,71 52,DA Input Emphasis Data,,,,,BVW75,
+60 53,DA PB Emph Sense,71 53,DA PlaybAcknowledge Emphasis Data,,,,,BVW75,
+60 58,DA Samp. Freq. Sense,71 58,DA Sampling Frequency Data,,,,,BVW75,
+61 0A,TimeCodeGenSense,74 08,Gen Time Data,,,Not Used ,,BVW75,
+61 0C,CurrentTimeSense,74 06,VITC Time Data,,,"74 04 LTC Time Data (-current Time Code)
+74 05 LTC User Bits Data
+74 06 VITC Time Data
+74.07 VITC User Bits Data
+78 04 LTC Time and User Bits Data
+78 06 VITC Time and User Bits Data ",,BVW75,
+61 20,StatusSense,7X 20,Status Data,,,,,BVW75,
+61 21,Extended VTR Status,7X 21,Extended Status Data,,,,,BVW75,
+61 2A,Head Meter Sense,7X 2A,Head Meter Data,,,,,BVW75,
+61 30,Edit Preset Sense,7X 30,Edit Preset Status,,,,,BVW75,
+61 AA,Cross Fade Time Sense,7X AA,Cross Fade Time Data,,,,,BVW75,
+62 23,Signal Control Sense,7X 23,Signal Control Data,,,,,BVW75,
+6X 28,Local Key Map Sense,7X 28,Local Key Map,,,,,BVW75,
+70 20,StatusData,,,,"Please see “Status Bits”
+sheet: Limited to 9 bytes
+of status, silently
+truncated",,,BVW75,
+71 2E,SpeedData,,,,,,,BVW75,
+71 36,TimerModeData,,,,Returns 0 (TimeCode),,,BVW75,
+74 00,Timer1Data,,,,,,,BVW75,
+74 01,Timer2Data,,,,,,,BVW75,
+74 04,LTC Time Data,,,,,,,BVW75,
+74 05,User Bits (LTC) Data,,,,,,,BVW75,
+74 06,VITCTimeData,,,,Current Time,,,BVW75,
+74 07,User Bits (VITC) Data,,,,00:00:00:00,,,BVW75,
+74 08,GenTCData,,,,Current Time,,,BVW75,
+74 09,GenUBData,,,,00:00:00:00,,,BVW75,
+74 10,InData,,,,,,,BVW75,
+74 11,OutData,,,,,,,BVW75,
+74 12,AInData,,,,,,,BVW75,
+74 13,AOutData,,,,,,,BVW75,
+74 14,CorrectedLTCTimeData,,,,Current Time,,,BVW75,
+74 15,Hold User Bits (LTC) Data,,,,,,,BVW75,
+74 16,Hold VITC Time Data,,,,,,,BVW75,
+74 17,Hold User Bits (VITC) Data,,,,,,,BVW75,
+74 31,PrerollTimeData,,,,,,,BVW75,
+76 2B,RemainTimeData,,,,,,,BVW75,
+78 00,Timer1Data,,,,"Current Time and
+00:00:00:00",,,BVW75,
+78 04,LTCUserBitsTimeData,,,,"Current Time and
+00:00:00:00",,,BVW75,
+78 06,VITCUserBitsTimeData,,,,"Current Time and
+00:00:00:00",,,BVW75,
+78 08,GenTCUBData,,,,"Current Time and
+00:00:00:00",,,BVW75,
+79 09,Gen User Bits Data,,,,,,,BVW75,
+A0 06,PreviewInReset ,10 01,Acknowledge,,,,,Odectics,
+A0 07,PreviewOutReset ,10 01,Acknowledge,,,,,Odectics,
+A0 14,ListFirstID,"80 14 => No clip in the server
+88 14 => first ID",,,,,,Odectics,
+A0 15,ListNextID,"80 14 => No clip in the server
+88 14 => next ID",,,,Same as A0 14 ,,Odectics,
+A0 1C,LonguestContiguousAvailableStorage,84 1C,,,,This is the storage of the recorder or the recorder associated with the player. ,,Odectics,
+A0 21,DeviceIDRequest,88 21,,,,,,Odectics,
+A1 01,AutoSkip,10 01,Acknowledge,,"8-bit signed number of
+clips to skip from current
+clip",,Disabled,Advanced Media Protocol,
+A8 11,EraseSegment,Nack,,,,Not implemented. ,,Odectics,
+A8 16,ListClipTc,"80 16
+88 16",,,,"Return the clip first frame time code and the clip duration.
+The Tc returned include the Drop/NoDrop bit on NTSC configuration (so does the function A8 17 and B8 06) ",,Odectics,
+A8 17,ListClipTc (EVS specific) ,"80 17
+89 17",,,,"Same as A8 16 but after the clip duration, it also returns the clip machine number (used mainly with “ID Louth” configuration) on one byte. ",,Odectics,
+A8 18,IDStatusRequest ,81 18,,,,"Return the clip status bit.
+Bit 0 : 1 if the clip exist.
+Bit 1 : 1 if the clip is preloaded.
+Bit 4: ToStore (EVS) if the clip has to be saved on the Xfile.
+Bit 5: IsStored, if the clip is saved on
+the XFile. ",,Odectics,
+A8 20,SetDeviceID,10 01,Acknowledge,,,,,Odectics,
+AX 02,RecordCueUpWithData,10 01,Acknowledge,,,,,Odectics,
+AX 04,PreviewInPreset,10 01,Acknowledge,,,,,Odectics,
+AX 05,PreviewOutPreset,10 01,Acknowledge,,,,,Odectics,
+AX 10,EraseID,10 01,Acknowledge,,,"If the clip ID is loaded in a channel, the clip deletion will failed. ",,Odectics,
+B0 00,GetEvent,"90 00 => no event
+9X 00 => event",,,,Asks for an EVS event from the queue. ,,Odectics,
+B1 01,SetTargetMachine,10 01,Acknowledge,,,Sets the target machine used with the RecordCueUpWhithData (only whith IDLouth),,Odectics,
+B8 02,SetIdForData,10 01,Acknowledge,,,Store a clip ID for future used by BC 02,,Odectics,
+BC 02,SetData,10 01,Acknowledge,,,Associates the data with the ID previously store by the command B8 02,,Odectics,
+B8 03,GetData,9C 03,,,,Gets the data associated with the ID supplied in the command.,,Odectics,
+BX 04,MakeClip,10 01,Acknowledge,,,"Create a new clip with the given ID and with the values defined into IN and OUT.
+A guardband can also be defined. ",,Odectics,
+BA 05,SetIDEVSStatus ,10 01,Acknowledge,,,"Set some status on a given ID.
+Presently the Xfiles flags toStore and isStored. ",,Odectics,
+B8 06,ListClipProtectTC,98 06,,,,This function is the same as the A8 17 (List clip TC) but it returns the Protects IN/OUT,,Odectics,
+B9 07,GetKeyword,9D 07,,,,Get a Keyword,,Odectics,
+B8 08,SetKeyword 1,10 01,Acknowledge,,,SetKeyword: Set the clip ID used with the function BD 08,,Odectics,
+BD 08,SetKeyword 2,10 01,Acknowledge,,,SetKeyword: set a keyword on the clip ID defined by the function B8 08,,Odectics,
+B9 09 04,ID LSM=>IDLouth,"99 09 04 => ID found
+91 09 04 => ID not found",,,,"Given an ID Lsm, the function returns the corresponding ID Louth",,Odectics,
+B9 09 05,ID Louth=>ID LSM,"99 09 05 => ID found
+91 09 05 => ID not found",,,,"Given an ID Louth, the function returns the corresponding ID Lsm",,Odectics,
+B9 0A,NetMoveClipIdVDCP ,,Acknowledge + Events,,,"Move a clip to target machine.
+The source clip is identified by a VDCP id.",,Odectics,
+B9 0B 53,NetMoveClipIdLsm 1,,Acknowledge + Events,,,"Move a clip to target machine.
+Set the source clip ID (ID Lsm)",,Odectics,
+B9 0B 54,NetMoveClipIdLsm 2,,Acknowledge + Events,,,"Move a clip to target machine.
+Set the target clip ID (ID LSM) ",,Odectics,
+B8 0C,NetCopyClipIdVDCP 1,,Acknowledge + Events,,,"Copy a clip to target machine.
+Set the source clip ID (VDCP Id) ",,Odectics,
+B9 0C,NetCopyClipIdVDCP 2,,Acknowledge + Events,,,"Copy a clip to target machine.
+Set the target clip ID (VDCP Id)",,Odectics,
+B9 0D 53,NetCopyClipIdLsm 1,,Acknowledge + Events,,,"Copy a clip to target machine.
+Set the source clip ID (ID Lsm)",,Odectics,
+B9 0D 54,NetCopyClipIdLsm 2,,Acknowledge + Events,,,"Copy a clip to target machine.
+Set the target clip ID (ID LSM)",,Odectics,
+B0 0E,GetFirstMachine,"90 0E => no machine.
+9A 0E => machine",,,,"Get the list of machines in the SDTI network.
+Use this function to get the first machine in the SDTI network.",,Odectics,
+B0 0F,GetNextMachine,"90.0F => no machine.
+9A.0F => machine",,,,"Get the list of machines in the SDTI network.
+Use this function to get the next machine in the SDTI network. ",,Odectics,
+B4 10,SetOptions,10 01,Acknowledge,,,SetOptions,,Odectics,
+B0 11,GetOptions,,,,,GetOptions,,Odectics,
+BX 12,SetInOut,,,,,Update clip short in & short out,,Odectics,
+B8 13,Live,10 01,Acknowledge,,,Goes to Live on the given camera. ,,Odectics,
+AX 15,ListNextID,,IDListing,,"when x = 0 single clip request
+when x = 1, # clips can be specified in the send data",,Disabled,Advanced Media Protocol,
+20 29,ClearPlaylist,10 01,Acknowledge,,,,Disabled,Advanced Media Protocol,
+41 42,SetPlaybackLoop,10 01,Acknowledge,,"Bit 0 loop mode enable,
+0=false 1=true
+Bit 1 is single clip/timeline
+0=single clip
+1=timeline",,Disabled,Advanced Media Protocol,
+41 44,SetStopMode,10 01,Acknowledge,,"0 = Off
+1 = Freeze on last frame
+2 = Freeze on next clip
+3 = Show black",,Disabled,Advanced Media Protocol,
+4F 16,AppendPreset,10 01,Acknowledge,,"2 Bytes for the length N of the clip name N Bytes for each character of the clip name
+4 Byte in point timecode (format is FFSSMMHH)
+4 Byte out point timecode (format is FFSSMMHH)",,Disabled,Advanced Media Protocol,
+08 02,BmdSeekToTimelinePosition,,Acknowledge,,16-bit little endian fractional position [0..65535],,Disabled,Blackmagic Extensions,
+81 03,BMDSeekRelativeClip,,Acknowledge,,"One-byte signed integer, which is the number of clips to skip (negative for backwards).",,Disabled,Blackmagic Extensions,

@@ -107,6 +107,26 @@ See also:
 Demo:
 - `examples/blackmagic-demo.js`
 
+## Odetics extensions
+
+This package includes helpers for Odetics (a superset of Sony 9‑pin used by various servers). As with AMP, devices/firmware vary, so wrappers are 1:1 and accept payloads where required.
+
+- Helper: `Odetics` (wraps `VTR422`)
+  - Examples: `listFirstId()`, `listNextId()`, `listClipTc()`, `idStatusRequest()`, `setDeviceId(...)`, `makeClip(...)`, `getEvent()`, `getFirstMachine()` and many more
+
+Example:
+
+```js
+import { VTR422, Odetics } from 'sony9pin-nodejs';
+const vtr = new VTR422({ portPath: 'COM1' });
+const od = new Odetics(vtr);
+await vtr.open();
+await od.listFirstId();
+await vtr.close();
+```
+
+See consolidated command tables in docs/COMMANDS.md for Sony, Blackmagic AMP, and Odetics.
+
 ## API
 
 ### `new VTR422(options)`
