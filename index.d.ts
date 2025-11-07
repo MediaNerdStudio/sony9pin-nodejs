@@ -193,6 +193,7 @@ export class Odetics {
   raw(cmd1: number, cmd2: number, data?: number[]): Promise<void>;
   timecodeAuto(): Promise<void>;
   pollTimecode(opts?: { intervalMs?: number; durationMs?: number }): Promise<void>;
+  autoSkip(deltaClips: number): Promise<void>;
   previewInReset(): Promise<void>;
   previewOutReset(): Promise<void>;
   listFirstId(): Promise<void>;
@@ -205,6 +206,9 @@ export class Odetics {
   idStatusRequest(): Promise<void>;
   setDeviceId(...bytes: number[]): Promise<void>;
   recordCueUpWithData(cmd1Variant?: number, ...data: number[]): Promise<void>;
+  cueByTimecode(tc: { hh: number; mm: number; ss: number; ff: number }): Promise<void>;
+  loadAndCueById(lsmId: string): Promise<void>;
+  loadByIdAndCueByTimecode(lsmId: string, tc: { hh: number; mm: number; ss: number; ff: number }): Promise<void>;
   previewInPreset(cmd1Variant?: number, ...data: number[]): Promise<void>;
   previewOutPreset(cmd1Variant?: number, ...data: number[]): Promise<void>;
   eraseId(cmd1Variant?: number, ...idBytes: number[]): Promise<void>;
@@ -234,4 +238,9 @@ export class Odetics {
   getOptions(...bytes: number[]): Promise<void>;
   setInOut(cmd1Variant?: number, ...bytes: number[]): Promise<void>;
   live(...bytes: number[]): Promise<void>;
+  jumpForwardFrames(frames: number, cmd1Variant?: number): Promise<void>;
+  jumpBackFrames(frames: number, cmd1Variant?: number): Promise<void>;
+  getLoadedId(cmd1Variant?: number, ...bytes: number[]): Promise<void>;
+  info(cmd1Variant?: number, selector?: number, ...data: number[]): Promise<void>;
+  activeIdRequest(): Promise<void>;
 }

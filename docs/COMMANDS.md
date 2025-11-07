@@ -76,6 +76,7 @@ HyperDeck-specific (observed):
 
 | Data | Command | Return | Reply | Notes |
 | --- | --- | --- | --- | --- |
+| A0 01 | AutoSkip | 10 01 | Acknowledge | Odetics auto skip (signed 8‑bit) |
 | A0 06 | PreviewInReset | 10 01 | Acknowledge | |
 | A0 07 | PreviewOutReset | 10 01 | Acknowledge | |
 | A0 14 | ListFirstID | 80/88 14 | | 80=no clip, 88=first ID |
@@ -113,6 +114,9 @@ HyperDeck-specific (observed):
 | B0 11 | GetOptions | (varies) | | |
 | BX 12 | SetInOut | (varies) | | Update short in/out |
 | B8 13 | Live | 10 01 | Acknowledge | Go live on given camera |
+| Cx 01 | Jump Forward X Frames | 10 01 | Acknowledge | Variant nibble Cx; data1=frames |
+| Cx 02 | Jump Back X Frames | 10 01 | Acknowledge | Variant nibble Cx; data1=frames |
+| Cx 03 | Get Loaded ID | 10 01 | Acknowledge | Variant nibble Cx |
 
 For all details and any additional commands, refer to the full CSV listings.
 

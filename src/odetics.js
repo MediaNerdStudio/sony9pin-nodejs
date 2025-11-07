@@ -22,7 +22,19 @@ export class Odetics {
     }
   }
 
+  // ---- helpers (internal) ----
+  #bcd(n) {
+    const v = Math.max(0, Math.min(99, n | 0));
+    const tens = Math.floor(v / 10);
+    const ones = v % 10;
+    return ((tens & 0x0F) << 4) | (ones & 0x0F);
+  }
+  #packTc({ hh, mm, ss, ff }) { return [this.#bcd(ff), this.#bcd(ss), this.#bcd(mm), this.#bcd(hh)]; }
+  #lsmIdToBytes(id) { const s = String(id); const out = []; for (let i = 0; i < s.length; i++) out.push(s.charCodeAt(i) & 0xFF); return out; }
+
   // ---- Odetics helpers (from Commands.csv) ----
+  // A0 01 Auto Skip (TSS manual notes as Odetics AUTO SKIP)
+  autoSkip(deltaClips) { return this.send(0xA0, 0x01, [(deltaClips | 0) & 0xFF]); }
   // A0 06 PreviewInReset
   previewInReset() { return this.send(0xA0, 0x06); }
   // A0 07 PreviewOutReset
@@ -56,6 +68,16 @@ export class Odetics {
   previewOutPreset(cmd1Variant = 0xA0, ...data) { return this.send(cmd1Variant & 0xFF, 0x05, data); }
   // AX 10 EraseID
   eraseId(cmd1Variant = 0xA0, ...idBytes) { return this.send(cmd1Variant & 0xFF, 0x10, idBytes); }
+
+  // ---- CueUpWithData variants (EVS specifics) ----
+  // 24.31 Cue by timecode only
+  cueByTimecode(tc /* {hh,mm,ss,ff} */) { return this.send(0x24, 0x31, this.#packTc(tc)); }
+  // 28.31 Load and cue by LSM ID (string like '114A/00')
+  loadAndCueById(lsmId /* string */) { return this.send(0x28, 0x31, this.#lsmIdToBytes(lsmId)); }
+  // 2C.31 Load by LSM ID and cue by timecode
+  loadByIdAndCueByTimecode(lsmId /* string */, tc /* {hh,mm,ss,ff} */) {
+    return this.send(0x2C, 0x31, [...this.#lsmIdToBytes(lsmId), ...this.#packTc(tc)]);
+  }
 
   // B0 00 GetEvent (90 00 => no event, 9X 00 => event)
   getEvent() { return this.send(0xB0, 0x00); }
@@ -113,4 +135,21 @@ export class Odetics {
   setInOut(cmd1Variant = 0xB0, ...bytes) { return this.send(cmd1Variant & 0xFF, 0x12, bytes); }
   // B8 13 Live (go live on given camera)
   live(...bytes) { return this.send(0xB8, 0x13, bytes); }
+
+  // ---- Additional from TSS manual ----
+  // CX 01 Jump Forward X Frames (variant nibble Cx)
+  jumpForwardFrames(frames /* 0..255 */, cmd1Variant = 0xC0) {
+    return this.send(cmd1Variant & 0xFF, 0x01, [frames & 0xFF]);
+  }
+  // CX 02 Jump Back X Frames (variant nibble Cx)
+  jumpBackFrames(frames /* 0..255 */, cmd1Variant = 0xC0) {
+    return this.send(cmd1Variant & 0xFF, 0x02, [frames & 0xFF]);
+  }
+  // CX 03 Get Loaded ID (variant nibble Cx)
+  getLoadedId(cmd1Variant = 0xC0, ...bytes) { return this.send(cmd1Variant & 0xFF, 0x03, bytes); }
+
+  // EVS: BX 09 YY general information selector
+  info(cmd1Variant = 0xB0, selector = 0x01, ...data) { return this.send(cmd1Variant & 0xFF, 0x09, [selector & 0xFF, ...data]); }
+  // EVS: B1.09.01 ActiveIDRequest
+  activeIdRequest() { return this.send(0xB1, 0x09, [0x01]); }
 }
