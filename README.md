@@ -190,5 +190,11 @@ Demo:
 - Frequent `TIMEOUT` NAKs: add short delays between commands, or query status before transport actions.
 - No timecode: enable VITC/LTC on the deck, or use `AUTO` for corrected LTC.
 
+## Credits
+- https://github.com/hideakitai/Sony9PinRemote
+- https://documents.blackmagicdesign.com/UserManuals/HyperDeckManual.pdf
+- https://ftp.zx.net.nz/pub/archive/ftp.sgi.com/sgi/video/rld/vidpage/s9pin.html
+- https://360systems.com/pdf/TSS%20Owners%20Manual_V5.11_1-02-18.pdf
+
 ## License
 MIT
