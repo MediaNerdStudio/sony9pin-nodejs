@@ -87,6 +87,7 @@ This package can be used to communicate with Blackmagic devices that speak their
   - `bm.send(cmd1, cmd2, data)` / `bm.raw(...)` – 1:1 packet sender
   - `bm.timecodeAuto()` – convenience alias using Sony 61.0C.03
   - `bm.pollTimecode({ intervalMs, durationMs })`
+  - HyperDeck-specific helpers: `bm.dmcSetFwd()`, `bm.dmcSetRev()`
 
 Example:
 
@@ -113,6 +114,11 @@ This package includes helpers for Odetics (a superset of Sony 9‑pin used by va
 
 - Helper: `Odetics` (wraps `VTR422`)
   - Examples: `listFirstId()`, `listNextId()`, `listClipTc()`, `idStatusRequest()`, `setDeviceId(...)`, `makeClip(...)`, `getEvent()`, `getFirstMachine()` and many more
+  - EVS info helpers: `activeIdRequest()` (B1.09.01), `info(cmd1Variant, selector, ...data)` (BX.09)
+  - Cue helpers (EVS variants of CueUpWithData):
+    - `cueByTimecode({ hh, mm, ss, ff })` → 24.31
+    - `loadAndCueById(lsmId)` → 28.31
+    - `loadByIdAndCueByTimecode(lsmId, { hh, mm, ss, ff })` → 2C.31
 
 Example:
 
@@ -126,6 +132,8 @@ await vtr.close();
 ```
 
 See consolidated command tables in docs/COMMANDS.md for Sony, Blackmagic AMP, and Odetics.
+Demo:
+- `examples/odetics.js` (shows CueUpWithData variants for LSM IDs)
 
 ## API
 
