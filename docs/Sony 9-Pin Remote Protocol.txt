@@ -1,0 +1,518 @@
+Sony 9-Pin Remote Protocol
+This is not the offical Sony 9-pin protocol. It is a summary for reference puroposes only. To obtain theprotocol document, contact Sony directly.Updated 6/16/96. Fixed the Prog Speed formula. Added Tables. Added all group 20 descriptions, more infoon status bits, and most of the group 40 commands.
+Communication Format
+The protocol is based on the EIA RS-422-A signal standard, usually at 38.4 kBit/s. The data are sent as 1 startbit + 8 data bits + 1 parity bit + 1 stop bit. Parity is odd: the bitwise sum of data bits 0 -7 and the parity bit isan odd number.Command Block Format
+The controlling device and the controlled device communicate through the interchange of command blocks.The bytes in each command block are assigned as follows:CMD-1/DATA COUNT. CMD-1 is the upper 4 bits, DATA COUNT is the lower 4.
+CMD-2.
+DATA-1 up to DATA-N, where n is the value in data count
+CHECKSUM
+
+CMD-1Indicates the function and direction of the command, according to:0 System control (Master->Slave) 
+1 Return for 0,2, or 4 of cmd-1 (Slave->Master) 
+2 Transport Control (Master->Slave) 
+4 Preset/Select control (Master->Slave) 
+6 Sense Request (Master->Slave) 
+7 Sense Return (Slave->Master) 
+
+DATA COUNTIndicates the number of bytes ( max 15 ) inserted between CMD-2 and CHECKSUMCMD-2Designates the command. Refer to the command table for definitions. Ex. CMD-1=0 and CMD-2=0Cmeans LOCAL DISABLE.DATA-1 to DATA-NData which correspond to those indicated by the command. Refer to the command table for dataformats.CHECKSUMLower eight bits of the sum of the bytes in the command block.Communication Protocol
+The protocol is initiated by the master. The slave should return a response within 9 msec. The response maybe:NAK + Error Data: Undefined command or communication error
+COMMAND + Data: if Command requested data
+ACK: if Command did not request data
+
+The master should not send another command until receiving a response from the slave device. The mastermust also insure that no more than 10 msec lapses between bytes in a command block. The master mustimmediatly stop sending data when it receives a NAK + Error Data message. If the Error Data contains"Undefined Command" the master may immediatley send another command, otherwise it must wait at least10 msec before sending another command. When the master does not receive a response from the slavewithin the 10 msec timeout, it may assume that communications have ceased and take appropriate measures.Cabling
+The pin assignments for the 9-pin cable are as follows:Pin Master Slave 
+1 Ground Ground 
+2 Rcv A Xmit A 
+3 Xmit B Rcv B 
+4 Xmit Common Rcv Common 
+5 Spare Spare 
+6 Rcv Common Xmit Common 
+7 Rcv B Xmit B 
+8 Xmit A Rcv A 
+9 Ground Ground 
+
+Auth - this varies alot: contact individual manufacturers for pinouts.Command Table
+
+This is the command table for the DVR-2000/2100. It is summarised here for reference purposes only. If youwant to order it from Sony call the Kansas City supply center and hope you get someone who knows the partnumber for the recorder whose protocol you want to use. Command  Response 
+00 0C Local Disable 10 01 Ack 
+00 11 Device Type Request 12 11 Device Type 
+00 1D Local Enable 10 01 Ack 
+20 00 Stop 10 01 Ack 
+20 01 Play 10 01 Ack 
+20 02 Record 10 01 Ack 
+20 04 Standby Off 10 01 Ack 
+20 05 Standby On 10 01 Ack 
+20 0F Eject 10 01 Ack 
+20 10 Fast Fwd 10 01 Ack 
+2X 11 Jog Fwd 10 01 Ack 
+2X 12 Var Fwd 10 01 Ack 
+2X 13 Shuttle Fwd 10 01 Ack 
+20 20 Rewind 10 01 Ack 
+2X 21 Jog Rev 10 01 Ack 
+2X 22 Var Rev 10 01 Ack 
+2X 23 Shuttle Rev 10 01 Ack 
+20 30 Preroll 10 01 Ack 
+24 31 Cue up with Data 10 01 Ack 
+20 34 Sync Play 10 01 Ack 
+21 38 Prog Speed Play + 10 01 Ack 
+21 39 Prog Speed Play - 10 01 Ack 
+20 40 Preview 10 01 Ack 
+20 41 Review 10 01 Ack 
+20 42 Auto Edit 10 01 Ack 
+20 43 Outpoint Preview 10 01 Ack 
+2X 54 Anti-Clog Timer Disable 10 01 Ack 
+2X 55 Anti-Clog Timer Enable 10 01 Ack 
+20 60 Full EE Off 10 01 Ack 
+20 61 Full EE On 10 01 Ack 
+20 63 Select EE On 10 01 Ack 
+20 64 Edit Off 10 01 Ack 
+20 65 Edit On 10 01 Ack 
+20 6A Freeze Off 10 01 Ack 
+20 6B Freeze On 10 01 Ack 
+44 00 Timer-1 Preset 10 01 Ack 
+44 04 Time Code Preset 10 01 Ack 
+44 05 User Bit Preset 10 01 Ack 
+40 08 Timer-1 Reset 10 01 Ack 
+40 10 In Entry 10 01 Ack 
+40 11 Out Entry 10 01 Ack 
+40 12 Audio In Entry 10 01 Ack 
+40 13 Audio Out Entry 10 01 Ack 
+44 14 In Data Preset 10 01 Ack 
+44 15 Out Data Preset 10 01 Ack 
+44 16 Audio In Data Preset 10 01 Ack 
+44 17 Audio Out Data Preset 10 01 Ack 
+40 18 In + Shift 10 01 Ack 
+40 19 In - Shift 10 01 Ack 
+40 1A Out + Shift 10 01 Ack 
+40 1B Out - Shift 10 01 Ack 
+40 1C Audio In + Shift 10 01 Ack 
+40 1D Audio In - Shift 10 01 Ack 
+40 1E Audio Out + Shift 10 01 Ack 
+40 1F Audio Out - Shift 10 01 Ack 
+40 20 In Flag Reset 10 01 Ack 
+40 21 Out Flag Reset 10 01 Ack 
+40 22 Audio In Flag Reset 10 01 Ack 
+40 23 Audio Out Flag Reset 10 01 Ack 
+40 24 In Recall 10 01 Ack 
+40 25 Out Recall 10 01 Ack 
+40 26 Audio In Recall 10 01 Ack 
+40 27 Audio Out Recall 10 01 Ack 
+40 2D Lost Lock Reset 10 01 Ack 
+4X 30 Edit Preset 10 01 Ack 
+44 31 Preroll time preset 10 01 Ack 
+41 32 Tape/Auto Select 10 01 Ack 
+41 33 Servo Ref Select 10 01 Ack 
+41 34 Head Select 10 01 Ack 
+41 35 Color Frame select 10 01 Ack 
+41 36 Timer Mode Select 10 01 Ack 
+41 37 Input Check 10 01 Ack 
+41 3A Edit Field Select 10 01 Ack 
+41 3B Freeze Mode Select 10 01 Ack 
+4X 3E Record Inhibit 10 01 Ack 
+40 40 Auto Mode Off 10 01 Ack 
+40 41 Auto Mode On 10 01 Ack 
+40 42 Spot Erase Off 10 01 Ack 
+40 43 Spot Erase On 10 01 Ack 
+40 44 Audio Split Off 10 01 Ack 
+40 45 Audio Split On 10 01 Ack 
+4X 98 Output H Phase 10 01 Ack 
+4X 9B Output Video Phase 10 01 Ack 
+4X A0 Audio Input Level 10 01 Ack 
+4X A1 Audio Output Level 10 01 Ack 
+4X A2 Audio Adv Level 10 01 Ack 
+4X A8 Audio Output Phase 10 01 Ack 
+4X A9 Audio Adv Out Phase 10 01 Ack 
+4X AA Cross Fade Time Preset 10 01 Ack 
+4X B8 Local Key Map 10 01 Ack 
+42 F8 Still Off time 10 01 Ack 
+42 FA Stby Off time 10 01 Ack 
+61 0A TC Gen Sense 74 08 Gen Time Data 
+  79 09 Gen User Bits Data 
+   
+  74 00 Timer-1 Data 
+  74 01 Timer-2 Data 
+  74 04 LTC Time Data 
+  74 05 User Bits (LTC) Data 
+61 0C Current Time Sense 74 06 VITC Time Data 
+  74 07 User Bits (VITC) Data 
+  74 14 Corrected LTC Time Data 
+  74 15 Hold User Bits (LTC) Data 
+  74 16 Hold VITC Time Data 
+  74 17 Hold User Bits (VITC) Data 
+60 10 In Data Sense 74 10 In Data 
+60 11 Out Data Sense 74 11 Out Data 
+60 12 Audio In Data Sense 74 12 Audio In Data 
+60 13 Audio Out Data Sense 74 13 Audio Out Data 
+61 20 Status Sense 7X 20 Status Data 
+61 21 Extended VTR Status 7X 21 Extended Status Data 
+62 23 Signal Control Sense 7X 23 Signal Control Data 
+6X 28 Local Key Map Sense 7X 28 Local Key Map 
+61 2A Head Meter Sense 7X 2A Head Meter Data 
+60 2B Remaining Time Sense 76 2B Remaining Time 
+60 2E Cmd Speed Sense 7X 2E Cmd Speed Data 
+61 30 Edit Preset Sense 7X 30 Edit Preset Status 
+60 31 Preroll Time Sense 74 31 Preroll Time 
+60 36 Timer Mode Sense 71 36 Timer Mode Status 
+60 3E Record Inhibit Sense 72 3E Record Inhibit Status 
+60 52 DA Inp Emph Sense 71 52 DA Input Emphasis Data 
+60 53 DA PB Emph Sense 71 53 DA Playback Emphasis Data 
+60 58 DA Samp. Freq. Sense 71 58 DA Sampling Frequency Data 
+61 AA Cross Fade Time Sense 7X AA Cross Fade Time Data 
+
+Command Formats
+00 0C Local Disable
+Disables operation of the slave device from its control panel.00 11 Device Type Request
+Slave Responds with12 11 Device Type
+message, with 2 bytes of data:Model Data 
+BVU-800 10 00 
+BVW-10 2X 00 
+BVW-11 2X 02 
+BVW-15 2X 03 
+BVW-35 2X 10 
+BVW-40 2X 01 
+BVW-50 2X 30 
+BVW-60 2X 20 
+BVW-65 2X 21 
+BVW-95 2X 22 
+BVW-96 2X 23 
+BVW-70 2X 24 
+BVW-75 2X 25 
+BVW-D75 2X 46 
+BVW-9000 2X 47 
+PVW-2600 2X 40 
+PVW-2800 2X 41 
+BVW-35PM 20 18 
+BVW-65PM 20 29 
+BVW-95PM 20 2A 
+BVW-75PM 20 2D 
+BVW-85P 21 26 
+BVW-70S 21 2C 
+BVW-75S 21 2D 
+WBR-700 21 2D 
+DVR-2000 3X 10 
+DVR-2100 3X 11 
+
+Where X=0 for NTSC/PAL-M (525) models and 1 for PAL/SECAM models.00 1D Local Enable
+Enable operation of slave device from local panel according to the local enable map set by the "4X B8"Local Key Map command.10 01 ACK
+Slave Sends this when it receives a command from Master.11 12 NAK
+When a communication error is detected, the slave sends this command with a "1" in the followingposition indicating the appropriate error condition:7 6 5 4 3 2 1 0 
+TimeOut FramingError OverrunError ParityError X ChecksumError X Undefinedcommand 
+
+20 00 Stop
+Slave stops current motion.20 01 Play
+Slave Starts to play from current location. When the "Sync play" mode is selected from the Systemmenu on the slave, "Play" has the same effect as 20.34 "Sync Play".20 02 Record
+Slave begins recording. Exactly what happens depends on Auto Mode, record lockout, and edit presets.20 04 Standby Off
+Turns off standby mode. For VTR, this causes the machine to unthread in stop. Affects EE/Tapeselection. Available only in Stop mode.20 05 Standby On
+Turns on standby mode. For VTR, this causes the machine to stay threaded when in stop. AffectsEE/Tape selection.20 0F Eject
+When this command is received, the slave will eject the tape.20.10 Fast Fwd
+When this command is received, the slave device will run in fast forward mode. The speed depends onthe VTR; for the DVR2000 series it is 50 x play speed.2X.11 Jog Forward
+2X.12 Var Forward
+2X.13 Shuttle Forward
+When these commands are received the slave device will move forward with the speed indicated byDATA-1 and DATA-2.When only DATA-1 is given, the speed wil be given by
+                Tape Speed = 10^((N/32)-2) x play speed.
+where N is the value of DATA-1. Some sample values are:Speed Speed Data 
+0.1 32 (20H) 
+1.0 64 (40H) 
+2.9 79 (4FH) 
+48.7 118 (76H) 
+
+When a more precise speed value is required, then DATA-2 will be added. The speed formula for thiscase is
+     Tape Speed = 10^((N/32)-2) + N'/256*(10^(((N+1)/32)-2)-10^((N/32)-2))
+where N is the value of DATA-1 and N' is the value of DATA-2.
+auth - in more standard terms, the formula says that DATA-2 is used to linealy interpolate between thevalue given by N and that of N+1.
+The maximum jog speed is set in the System:System menu. The maximum Var speed is 3X play speed.The maximum shuttle speed is 50X play speed.
+auth - There is considerable controversy over the minimum speed. For a speed value of 0, the aboveformula with only DATA-1 gives 10^-2, or .01 x play speed. The standard states that when a speedbetween 0 and the minumum is given, the slave moves at minimum speed. In fact, many editors andcontrol systems intend a "Shuttle 0" command ( 21 13 00 ) to pause the device and have it stop withoutdisengaging. Devices which fail to do so will creep about 1 frame/second in this situation.
+20 20 Rewind
+When it receives this command, the slave runs in reverse at maximum speed: on the DVR2000, this is50xplay speed.2X 21 Jog Rev
+2X 22 Var Rev
+2X 23 Shuttle Rev
+When receiving one of the above commands, the slave will start running in accordance with the speeddata defined by DATA-1 and DATA-2. For the maximum and minimum speed see the 2X.12 ShuttleFwd command.20 30 Preroll
+When this command is received the slave will search to the preroll position defined as the valueobtained by subtracting the preroll time set by the 44.31 Preroll Time Preset command from the INPOINT data stored in the IN ENTRY memory by the 40.10 In Entry command.24 31 Cue Up With Data
+Cues the slave to the indicated time. Time is formatted as follows:        data-1      data-2      data-3     data-4      | Frame | | Seconds | | minutes | | hours |      | 10  1 | |   10 1  | |   10 1  | | 10 1  |
+auth - this is how time is represented in all commands and responses using a time code. The numbersindicate that the 10s value is stored in the high nibble and the 1s value in the low nibble. This is not tobe confused with the 80-bit SMPTE timecode which is present in the analog timecode track on tape, orwith the VITC timecode.20 34 Sync Play
+Prerolls the slave for the preset preroll time, then enters play mode.21 38 Prog Speed Play +
+21 39 Prog Speed Play -
+These commands play back the slave device in steps of 0.1% within the range of +/- 25.5% of playspeed. DATA-1 contains an 8-bit speed value. The deviation from nominal play speed is        Deviation(%)=0.1 x speed value
+20 40 Preview
+20 41 Review
+20 42 Auto Edit
+When one of these commands is received the slave goes into the indicated mode.This is all the spec states here. What actually happens is determined by the edit presets, in and outpoint selections, and ee/tape settings. Basically, all three set the device to the preroll position, and runat play speed up to the in point. In Preview, the slave switches to EE mode at the in point, and out atthe out point, simulating the edit without disturbing the recording media. In review, the slave simplycontinues to play at the in point and rolls to the outpoint. In Auto Edit, the channels indicated by theedit presets are put into record at the in point and the recoding proceeds to the out point.
+20 43 Outpoint Preview
+Sends transport to preset out point if insert mode is preset.2X 54 Anti-Clog Timer Disable
+Disables the anti-clog timer. This timer is responsible for unthreading the tape upon timeout to savewear on the heads. If a system disables this timer, it should take responsibility for head wear avoidanceitself.2X 55 Anti-Clog Timer Enable
+Enables anti-clog timer.20 60 Full EE Off
+Clears all channels from EE mode regardless of EDIT PRESET channels assigned by the 41.30 EDITPRESET command. It takes the slave 5 frames to perform this operation after it receieves thecommand.20 61 Full EE On
+Sets all channels to EE mode regardless of EDIT PRESET channels assigned by the 41.30 EDITPRESET command. It takes the slave 5 frames to perform this operation after it receieves thecommand.20 63 Select EE On
+This command sets only the preset channels assigned by the 41.30 Edit Preset command to EE mode.The EE mode is cleared by the 20.64 Edit Off command. It takes the slave 5 frames to perform thisoperation after receiving the command.20 64 Edit Off
+This command will stop recording without affecting the state of motion of the device. Any channels inrecord will come out in response to this command, after 5 frames of delay. This command also clearsthe Manual Edit Record mode and the Select EE mode.20 65 Edit On
+This command is used to actually initiate recording. When the device is playing, and the edit presetsset by the 4X 30 Edit Preset command are in place, the preset channels will enter record a fixed delayafter this command is received. The slave will enter Edit Rec mode at this point. It takes the slave 5frames to enter Edit Rec after receiving this command.20 6A Freeze Off
+This command un-freezes the output of the device.20 6A Freeze On
+This command freezes the output of the device. There is usually a 2-5 frame delay associcated with theactual freeze.44 00 Timer-1 Preset
+Sets the Timer-1 value to the time code indicated by DATA-1 thru DATA-4. For the time format see the24.31 Cue Up With Data command.44 04 Time Code Preset
+Sets the Time Code Generator value to the time code indicated by DATA-1 thru DATA-4. The dataformat is as per the 24.31 Cue Up With Data command, with two additional bits to indicate ColorFrame and Drop Frame mode as follows:Data-1 Bit 7 CF Data-1 Bit 6 DF 
+0 Off 0 Off 
+1 On 1 On 
+
+44 05 User Bit Preset
+This command presets the value given by DATA-1 through DATA-4 to the User Bits of the Time CodeGeneratorDATA-1  DATA-2  DATA-3  DATA-4  
+MSD LSD MSD LSD MSD LSD MSD LSD 
+Bin Grp 2 Bin Grp 1 Bin Grp 4 Bin Grp 3 Bin Grp 6 Bin Grp 5 Bin Grp 8 Bin Grp 7 
+
+40 08 Timer-1 Reset
+Clears Tape timer 1 to 040 10 In Entry
+Sets the video in point to the value displayed on the slave. This is the value of the selected tape timer.40 11 Out Entry
+Sets the video out point to the value displayed on the slave. This is the value of the selected tape timer.40 12 Audio In Entry
+Sets the audio in point to the value displayed on the slave. This is the value of the selected tape timer.40 13 Audio Out Entry
+Sets the audio out point to the value displayed on the slave. This is the value of the selected tape timer.44 14 In Data Preset
+Set the Video In Point to the value indicated by DATA-1 thru DATA-4. The time format is as per the24.31 Cue Up With Data command.44 15 Out Data Preset
+Set the Video Out Point to the value indicated by DATA-1 thru DATA-4. The time format is as per the24.31 Cue Up With Data command.44 16 Audio In Data Preset
+Set the Audio In Point to the value indicated by DATA-1 thru DATA-4. The time format is as per the24.31 Cue Up With Data command.44 17 Audio Out Data Preset
+Set the Audio Out Point to the value indicated by DATA-1 thru DATA-4. The time format is as per the24.31 Cue Up With Data command.40 18 In + Shift
+Increments the Video in point by one frame.40 19 In - Shift
+Decrements the Video in point by one frame.40 1A Out + Shift
+Increments the Video out point by one frame.40 1B Out - Shift
+Decrements the Video out point by one frame.40 1C Audio In + Shift
+Increments the Audio in point by one frame.40 1D Audio In - Shift
+Decrements the Audio in point by one frame.40 1E Audio Out + Shift
+Increments the Audio out point by one frame.40 1F Audio Out - Shift
+Decrements the Audio out point by one frame.40 20 In Flag Reset
+40 21 Out Flag Reset
+40 22 Audio In Flag Reset
+40 23 Audio Out Flag Reset
+Turn off the In Entry, Out Entry Audio In, and Audio Out lamps.auth - do these have any effect on the status bits?
+40 24 In Recall
+40 25 Out Recall
+40 26 Audio In Recall
+40 27 Audio Out Recall
+Turn on the In Entry, Out Entry Audio In, and Audio Out lamps.40 2D Lost Lock Reset
+Resets ( sets to 0 ) the Data-8/Bit-6 Lost Lock bit in the 7X.20 status data . The LOST LOCK staus willbe set when the servo is unlocked in the Play, Rec, or Edit mode.4X 30 Edit Preset
+This command is used for selecting the edit mode and selection of preset audio and video channels.These values are used by the Edit On and Edit Off comands.Byte 7 6 5 4 3 2 1 0 
+DATA-1: X Insert Assemble Video X TC A2(Cue) A1(Cue) 
+DATA-2: X X X X DA4 DA3 DA2 DA1 
+
+when the 41.30 command is used, the audio channels are set as per the table in the Edit:Setup menu.When the 42.30 command is used and Bit1 or Bit0 of Data-1 are "1", the Cue channel is selected.44 31 Preroll time preset
+Presets the preroll time given by DATA-1 thru DATA-4. Only the seconds digit int DATA-2 is used,and must be in the range of 0-59. The time format is as per the 24.31 Cue Up With Data command.41 32 Tape/Auto Select
+the Tape/EE mode is seleted by DATA-1 as follows: Data-1  Mode -----------------00      Auto ( Tape/EE )01      TapeFF      Follows the mode set in the STATE MAP on the SYSTEM menu in Local.
+41 33 Servo Ref Select
+Selects the SERVO REFERENCE signal according to DATA-1: DATA-1  State -----------------00      Auto01      External02      InputFF      Follows the mode set in REFERENCE on the SYSTEM:SYSTEM menu in Local.
+41 34 Head Select
+auth - this command is not implemented by the DVR2000, but many other systems use it to to selectplayback/record heads. On the DVR2000 the selection is automatic.41 35 Color Frame select
+Sets the COLOR FRAME mode of the servo system according to DATA-1: DATA-1  State -----------------01      2 Field02      4 Field03      8 FieldFF      Follows the mode set in LOCK FIELD on the SYSTEM:SYSTEM menu in Local.
+41 36 Timer Mode Select
+Selects the TIMER system used in AUTO mode, and for display of the IN ENTRY, OUT ENTRY, INPRESET, OUT PRESET, PREROLL, and CUE UP WITH DATA, etc. according to DATA-1: DATA-1  Mode -----------------00      TIME CODE01      TIMER-102      TIMER-2FF      Follows the mode set in F6:CRNT TM on the HOME menu in Local.
+41 37 Input Check
+Switches the INPUT CHECK mode on/off as per DATA-1: DATA-1 Mode 00    INPUT CHECK off01    INPUT signals sent out VIDEO and MONITOR AUDIO OUTPUT connectors.
+41 3A Edit Field Select
+Assigns the field on which to start the EDIT as per DATA-1:DATA-1   Mode-------------00               Field1/Field2: The edit will start on the field the command                 was received on 01       Field 102       Field 2FF       Follows the mode set in F4:TIMING on the EDIT SETUP menu in Local.
+The following commands use the field selection:20.60 Full EE Off
+20.61 Full EE On
+20.63 Select EE On
+20.64 Edit Off
+20.65 Edit On
+4X.30 Edit Preset
+
+41 3B Freeze Mode Select
+Assigns the contents of the freeze picture to be field or frame as per DATA-1:DATA-1  Mode------------00      Field-1 or Field-2 ( not fixed )01      Field 110      Field 211      Frame
+4X 3E Record Inhibit
+40 40 Auto Mode Off
+40 41 Auto Mode On
+These commands switch the AUTO mode off and on.40 42 Spot Erase Off
+40 43 Spot Erase On
+These commands switch the spot erase mode off and on.40 44 Audio Split Off
+40 45 Audio Split On
+These commands switch the audio split mode off and on.4X 98 Output H Phase
+Sets the output Horizontal phase. The 40.98 command sets the H Phase to 0, whereas the 41.98command sets the H phase according to        H Phase = DATA_1 * 148 nsec
+where DATA_1 is interpreted as a twos complement binary number in the range of -127 to 127.4X 9B Output Video Phase
+Sets the output sync phase. The 40.9B command sets the output sync phase to 0 whereas the 41.9Bcommand sets the output sync phase according to        Sync Phase = DATA_1 * 74 nsec
+where DATA_1 is interpreted as a twos complement binary number in the range of -127 to 127.4X A0 Audio Input Level
+Controls the audio input level. The control mode is assigned by bit 7 of DATA-1. , and the channel tobe controled is assigned by bit 6 to bit 0 of DATA-1. When the 41 A0 command is received, the audioinput levels of the channels assigned by DATA-1 will be set to their reference levels. When CMDLENis not 1, the level data will be composed of two bytes per assigned channel in the order DA1, DA2,DA3, DA4, CUE. The DATA-1 bits look like:Bit 7 6 5 4 3 2 1 0 
+Value Mode X X Cue DA4 DA3 DA2 DA1 
+
+For Example, when the DATA-1 is 0x11, the command looks like:DATA-1 DATA-2 DATA-3 DATA-4 DATA-5 
+11 DA1 LSB DA1 MSB CUE LSB CUE MSB 
+
+The level data are interpreted as per the formula:Input Level = 20 log [(Level Data)/(4000h)] (dB)
+Which gives coverage over the range of +12dB to -infinity.4X A1 Audio Output Level
+Controls the audio output level. When the 41 A1 command is received, the audio output level of thechannels selected in DATA-1 will be set to the reference level. Otherwise, it operates as per the 4X.A0Audio input level command.4X A2 Audio Adv Level
+Controls the audio advance level. When the 41 A2 fixed doc error here command is received, the audioadvance level of the channels selectd by DATA-1 will be set to the reference level. Otherwise, itoperates as per the 4X.A0 Audio input level command.4X A8 Audio Output Phase
+Sets the autdio output phase. The 42.A8 command determines the audio output phase according to the16-bit value encoded with the low byte in DATA-1 and the high byte in DATA-2. The values areinterpreted as 2s complement binary, and currently have a range of +/- 80 samples. When the 40.A8command is received, the slave will set the audio ouput phase to its nominal value.4X A9 Audio Adv Out Phase
+Sets the Advance audio output phase. The 42.A9 command determines the audio advance phaseaccording to the 16-bit value encoded with the low byte in DATA-1 and the high byte in DATA-2. Thevalues are interpreted as 2s complement binary, and currently have a range of +0/-50 samples. the40.A9 will set the audio advance phase to its nominal value.4X AA Cross Fade Time Preset
+4X B8 Local Key Map
+When the slave receives the 00.1D Local Enable command, the control panel may be used according tothe local key map that was set by this command. When the slave receives the 00.0C Local Disablecommand all the keys, buttons, and adjustment controls on the control panel are disabled. The Ejectbutton can always be used. If the slave receives the 41.B8 command, the local key map is preset by theblock level in accordance with DATA-1. IF it receives the 4X.B8 command ( X > 2 ) The local keymap is preset by the Switch level.Block Level switches:
+        Bit 7 Bit 6 Bit 5   Bit 4   Bit 3   Bit 2   Bit 1   Bit 0                          Tracking Monitor  Audio   Video Transport                          Control  Control Control Control Control"1": This function will be enabled when in remote"0": This function will be disabled in remote.
+When DATA-2 or more are added, control data with two bytes per each block assigned by DATA-1 areadded following DATA-1.
+At present the transport switches are defined as follows:
+Bit 7 6 5 4 3 2 1 0 
+1st Byte Execute Preroll Search  Rec Play Stop Standby 
+2nd Byte      Var Jog Shuttle 
+
+None of the other blocks have any switches assigned, but rather operate as follows:
+Video Control: Video phase and Sync phase can be adjusted on the system menu in remote mode.
+Audio Control: Audio levels and output phase can be adjusted on the Audio:DA out menu in remotemode.
+Monitor Control: the wfm monitor output selection on the system:wfm monitor menu and the montiorlevel adjustments and monitor out selection on the system:audio monitor menu can be adjusted inremote mode.
+Tracking Control: Tracking adjustments in the system:tracking menu can be made in remote mode.
+42 F8 Still Off time
+42 FA Standby Off time
+61 0A TC Gen Sense
+60 10 In Data Sense
+60 11 Out Data Sense
+60 12 Audio In Data Sense
+60 13 Audio Out Data Sense
+61 0C Current Time Sense
+Requests the TIME DATA or USER BITS. Slave responds as per DATA-1:      Bit 7   Bit 6   Bit 5   Bit 4   Bit 3   Bit 2   Bit 1   Bit 0                       VITC    LTC   TIMER 2 TIMER 1   VITC   LTC                         UB      UB                     TIME   TIME
+That is to say that the response follows the bit set in DATA-1 as per the following tableReqest Response 
+DATA-1=01 LTC TIME 74.04: LTC TIME DATA 
+ 74.14: CORRECTED LTC TIME DATA 
+DATA-1=02 VITC TIME 74.06: VITC TIME DATA 
+ 74.16: HOLD VITC TIME DATA 
+DATA-1=04 TIMER-1 74.00: TIMER-1 DATA 
+DATA-1=08 TIMER-2 74.01: TIMER-2 DATA 
+DATA-1=10 LTC UB 74.05: UB (LTC) DATA 
+ 74.15: HOLD UB (LTC) DATA 
+DATA-1=20 VITC UB 74.07: UB (VITC) DATA 
+ 74.17: HOLD UB (VITC) DATA 
+
+Now, when requesting timecode, the results depend on the tape speed because at very low speeds ( lessthan .25 play speed ) it may not be possible to recover timecode. However, if VITC is present, that maybe used instead. To automate this decision process, Sony has provided the special 61.0C.03 commandwhich will return the best source of time code as per the table below. Note that when both LTC andVITC are not good you get back the 74.14 corrected LTC data. In this case, the time is actually the lastgood LTC time corrected by the tape timer.Tape speed > .25LTC Status VITC Status Return Data Return code 
+OK OK LTC 74.04 XX XX XX XX 
+NG OK VITC 74.06 XX XX XX XX 
+OK NG LTC 74.04 XX XX XX XX 
+NG NG LTC(*) 74.14 XX XX XX XX 
+
+Tape speed < .25LTC Status VITC Status Return Data Return code 
+OK OK VITC 74.06 XX XX XX XX 
+NG OK VITC 74.06 XX XX XX XX 
+OK NG LTC 74.04 XX XX XX XX 
+NG NG LTC(*) 74.14 XX XX XX XX 
+
+61 20 Status Sense
+When the slave receives a 61.20 Status Sense command, it will respond with a 74 20 Status Dataresponse. The starting byte number and number of bytes requested are encoded in DATA-1, with thestarting reg in the high nibble (bits 7-4) and the requested byte count in the low nibble ( bits 3-0 ).61 21 Extended VTR Status
+62 23 Signal Control Sense
+6X 28 Local Key Map Sense
+61 2A Head Meter Sense
+60 2B Remaining Time Sense
+60 2E Cmd Speed Sense
+61 30 Edit Preset Sense
+60 31 Preroll Time Sense
+60 36 Timer Mode Sense
+60 3E Record Inhibit Sense
+60 52 DA Inp Emph Sense
+60 53 DA PB Emph Sense
+60 58 DA Samp. Freq. Sense
+61 AA Cross Fade Time Sense
+74 00 Timer-1 Data
+DATA-1 thru DATA-4 contain the timer-1 data formatted as per the 24.31 Cue up with data command74 01 Timer-2 Data
+DATA-1 thru DATA-4 contain the timer-2 data formatted as per the 24.31 Cue up with data command74 04 LTC Time Data
+DATA-1 thru DATA-4 contain the LTC data formatted as per the 24.31 Cue up with data command74 05 User Bits (LTC) Data
+DATA-1 thru DATA-4 contain the LTC User bits data formatted at per the 44.05 User Bit Presetcommand.74 06 VITC Time Data
+DATA-1 thru DATA-4 contain the VITC data formatted as per the 24.31 Cue up with data command74 07 User Bits (VITC) Data
+DATA-1 thru DATA-4 contain the VITC User bits data formatted at per the 44.05 User Bit Presetcommand.74 08 Gen Time Data
+DATA-1 thru DATA-4 contain the Time code generator data formatted as per the 24.31 Cue up withdata command79 09 Gen User Bits Data
+DATA-1 thru DATA-4 contain the Time code generator User bits data formatted at per the 44.05 UserBit Preset command.74 10 In Data
+74 11 Out Data
+74 12 Audio In Data
+74 13 Audio Out Data
+74 14 Corrected LTC Time Data
+74 15 Hold User Bits (LTC) Data
+74 16 Hold VITC Time Data
+74 17 Hold User Bits (VITC) Data
+74 20 Status Data
+When the slave receives a 61.20 Status Sense command, the following data will be sent back inresponse according to the request:ByteNo. 7 6 5 4 3 2 1 0 
+0 X X Tape Out Servo RefMissing X X X Local 
+1 Standby X Stop Eject Rewind FastFwd Record Play 
+2 ServoLock TSOMode Shuttle Jog Var Tape Dir Still Cue Up 
+3 AutoMode FreezeOn X CF Mode A Out A In Out In 
+4 Select EE Full EE X Edit Review AutoEdit Preview Preroll 
+5 X Insert Assemble Video A4 A3 A2 A1 
+6 X LampStill LampFwd Lamp Rev SrchLED 8 SrchLED 4 SrchLED 2 SrchLED 1 
+7 X X Aud Split Sync Act X SpotErase X In/Out 
+8 Buzzer Lostlock Near EOT EOT CF Lock SvoAlarm SysAlarm RecInhib 
+9 FncAbort X X X X X X X 
+
+Description of Bits:
+Data 0:Bit 5: Tape Unthreaded (Cassette Out) When the tape is threaded, this is 0. When it iscompletely unthreaded this is 1. When threading or unthreading, who knows what it is.
+Bit 4: Servo Ref Missing When servo reference is absent this is 1.
+Bit 0: Local When remote operation is inhibited by the "remote/local" switch on the panelthis is 1.
+
+Data 1:Bit 7: Standby When the tape is threaded and the scanner is locked but the tape is stopped,this is 1.
+Bit 5: Stop When the machine is in full stop, this is 1. The thread state depends on thetape/ee and standby settings.
+Bit 4: Eject When the tape is ejecting this is 1.
+Bit 3: Rewind When the machine is in fast reverse this is 1.
+Bit 2: Fast Fwd When the machine is in fast forward this is 1.
+Bit 1: Record This bit goes from 0 to 1 some number of frames after the machine startsrecording. For the DVR2000 we measured 5 frames. Others have varying delays on therecord status.
+Bit 0: Play This bit goes from 0 to 1 some number of frames after the machine startsplaying. For the DVR2000 we measured 5 frames. Others have varying delays on the playstatus.
+
+Data 2:Bit 7: Servo Lock 1 indicates servos are locked. This is a necessary condition for an edit tooccur correctly.
+Bit 6: TSO Mode Bit is 1 in tape speed override: in this mode, audio and video are stilllocked though speed is off play speed by +/- up to 15%.
+Bit 5: Shuttle
+Bit 4: Jog
+Bit 3: Var
+Bit 2: Tape Dir
+Bit 1: Still
+Bit 0: Cue Up
+
+Data 3:Bit 7: Auto Mode
+Bit 6: Freeze On
+Bit 4: CF Mode
+Bit 3: A Out
+Bit 2: A In
+Bit 1: Out
+Bit 0: In
+
+Data 4:Bit 7: Select EE
+Bit 6: Full EE
+Bit 4: Edit
+Bit 3: Review
+Bit 2: Auto Edit
+Bit 1: Preview
+Bit 0: Preroll
+
+Data 5:Bit 6: Insert
+Bit 5: Assemble
+Bit 4: Video
+Bit 3: A4
+Bit 2: A3
+Bit 1: A2
+Bit 0: A1
+
+Data 6:Bit 6: Lamp Still
+Bit 5: Lamp Fwd
+Bit 4: Lamp Rev
+Bit 3: Srch LED 8
+Bit 2: Srch LED 4
+Bit 1: Srch LED 2
+Bit 0: Srch LED 1
+
+Data 7:Bit 5: Aud Split
+Bit 4: Sync Act
+Bit 2: Spot Erase
+Bit 0: In/Out
+
+Data 8:Bit 7: Buzzer
+Bit 6: Lost lock 
+This bit is controled by the Lost Lock Reset command. It is set when theservos are unlocked in the PLAY, REC, or EDIT modes.
+Bit 5: Near EOT
+Bit 4: EOT
+Bit 3: CF Lock
+Bit 2: Svo Alarm
+Bit 1: Sys Alarm
+Bit 0: Rec Inhib
+
+Data 9:Bit 7: Fnc Abort
+
+auth - here's a code snippet for you c-heads.char *StatusBitStrings[][8] ={        // Data 0        {"         ","          ","Unthread  ","Svo Ref   ",         "          ","          ","          ","Local     "},        // Data 1        {"Standby   ","          ","Stop      ","Eject     ",         "Rewind    ","Fast Fwd  ","Record    ","Play      "},        // Data 2        {"Servo Lock","TSO Mode  ","Shuttle   ","Jog       ",         "Variable  ","Tape Rev  ","Still     ","Cue       "},        // Data 3        {"Auto Mode ","Freeze On ","          ","CF Mode   ",         "A Out     ","A In      ","Out       ","In        "},        // Data 4        {"Select EE ","Full EE   ","          ","Edit      ",         "Review    ","Auto Edit ","Preview   ","Preroll   "},        // Data 5        {"          ","Insert    ","Assemble  ","Video     ",         "A4        ","A3        ","A2        ","A1        "},        // Data 6        {"          ","Lamp Still","Lamp Fwd  ","Lamp Rev  ",         "Srch LED 8","Srch LED 4","Srch LED 2","Srch LED 1"},        // Data 7        {"          ","          ","Aud Split ","Sync Act  ",         "          ","Spot Erase","          ","In/Out    "},        // Data 8        {"Buzzer    ","Lost lock ","Near EOT  ","EOT       ",         "CF Lock   ","Svo Alarm ","Sys Alarm ","Rec Inhib "},        // Data 9        {"Fnc Abort ","          ","          ","          ",         "          ","          ","          ","          "},};
+The Status bits communicate much about the progress of a motion command. The precise timing of eachsignal varies almost from machine to machine, and many edit controlers expect certain timing behaviour ofthese signals. Herein lie many of the problems associated with edit controllers, edit timing, and just plainwacky transport behavior.
+7X 21 Extended Status Data
+7X 23 Signal Control Data
+7X 28 Local Key Map
+7X 2A Head Meter Data
+76 2B Remaining Time
+7X 2E Cmd Speed Data
+7X 30 Edit Preset Status
+74 31 Preroll Time
+71 36 Timer Mode Status
+72 3E Record Inhibit Status
+71 52 DA Input Emphasis Data
+71 53 DA Playback Emphasis Data
+71 58 DA Sampling Frequency Data
+7X AA Cross Fade Time Data
+Back to the Video PageRick Davis <rld@sgi.com>

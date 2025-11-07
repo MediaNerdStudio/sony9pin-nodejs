@@ -183,6 +183,8 @@ export class BlackmagicAMP {
   raw(cmd1: number, cmd2: number, data?: number[]): Promise<void>;
   timecodeAuto(): Promise<void>;
   pollTimecode(opts?: { intervalMs?: number; durationMs?: number }): Promise<void>;
+  dmcSetFwd(): Promise<void>;
+  dmcSetRev(): Promise<void>;
 }
 
 export class Odetics {

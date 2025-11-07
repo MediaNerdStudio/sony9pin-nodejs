@@ -74,6 +74,12 @@ export class BlackmagicAMP {
   // 0x81 0x03 BMDSeekRelativeClip: one-byte signed integer (# clips to skip)
   seekRelativeClip(deltaClips) { return this.send(0x81, 0x03, [(deltaClips | 0) & 0xFF]); }
 
+  // HyperDeck-specific additions observed in manual
+  // 0x22 0x5C DMCSetFwd
+  dmcSetFwd() { return this.send(0x22, 0x5C); }
+  // 0x22 0x5D DMCSetRev
+  dmcSetRev() { return this.send(0x22, 0x5D); }
+
   // ---- internals ----
   #bcd(n) {
     const v = Math.max(0, Math.min(99, n | 0));

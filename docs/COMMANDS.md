@@ -63,6 +63,13 @@ See the CSV for the exhaustive list.
 | 08 02 | SeekToTimelinePosition | 10 01 | Acknowledge | LE 16‑bit fraction |
 | 81 03 | SeekRelativeClip | 10 01 | Acknowledge | signed 8‑bit |
 
+HyperDeck-specific (observed):
+
+| Data | Command | Return | Reply | Notes |
+| --- | --- | --- | --- | --- |
+| 22 5C | DMCSetFwd | 10 01 | Acknowledge | Device-specific forward DMC setting |
+| 22 5D | DMCSetRev | 10 01 | Acknowledge | Device-specific reverse DMC setting |
+
 ---
 
 ## Odetics (selected)
