@@ -30,7 +30,18 @@ export class Odetics {
     return ((tens & 0x0F) << 4) | (ones & 0x0F);
   }
   #packTc({ hh, mm, ss, ff }) { return [this.#bcd(ff), this.#bcd(ss), this.#bcd(mm), this.#bcd(hh)]; }
-  #lsmIdToBytes(id) { const s = String(id); const out = []; for (let i = 0; i < s.length; i++) out.push(s.charCodeAt(i) & 0xFF); return out; }
+  #lsmIdToBytes(id) {
+    // EVS LSM ID is 8 ASCII bytes with last byte as a blank (space)
+    // Examples: '114A/00 ' or '013C/00 '
+    let s = String(id ?? '').toUpperCase().trim()
+    // Ensure trailing space and exact length of 8
+    if (!s.endsWith(' ')) s += ' '
+    if (s.length < 8) s = s.padEnd(8, ' ')
+    else if (s.length > 8) s = s.slice(0, 8)
+    const out = []
+    for (let i = 0; i < s.length; i++) out.push(s.charCodeAt(i) & 0xFF)
+    return out
+  }
 
   // ---- Odetics helpers (from Commands.csv) ----
   // A0 01 Auto Skip (TSS manual notes as Odetics AUTO SKIP)
